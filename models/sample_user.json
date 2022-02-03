@@ -1,0 +1,27 @@
+[
+  {
+    "_id": "61fb6ad0939afdfb71e704ae",
+    "email": "test1@email.com",
+    "nickname": "test1",
+    "imageUrl": null,
+    "gameHistory": ["61fb705f939afdfb71e704bd"]
+  },
+  {
+    "_id": "61fb6ad0939afdfb71e704af",
+    "email": "test2@email.com",
+    "nickname": "test2",
+    "imageUrl": null,
+    "gameHistory": [
+      "61fb705f939afdfb71e704bc",
+      "61fb705f939afdfb71e704bd",
+      "61fb705f939afdfb71e704be"
+    ]
+  },
+  {
+    "_id": "61fb6ad0939afdfb71e704b0",
+    "email": "test3@email.com",
+    "nickname": "test3",
+    "imageUrl": null,
+    "gameHistory": ["61fb705f939afdfb71e704bd", "61fb705f939afdfb71e704be"]
+  }
+]

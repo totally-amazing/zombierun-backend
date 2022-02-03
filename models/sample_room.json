@@ -1,0 +1,20 @@
+[
+  {
+    "mode": "OneOnOne",
+    "title": "test room 1",
+    "speed": null,
+    "time": 30,
+    "participants": ["61fb6ad0939afdfb71e704ae", "61fb6ad0939afdfb71e704af"]
+  },
+  {
+    "mode": "Survival",
+    "title": "test room 2",
+    "speed": 6,
+    "time": null,
+    "participants": [
+      "61fb6ad0939afdfb71e704ae",
+      "61fb6ad0939afdfb71e704af",
+      "61fb6ad0939afdfb71e704b0"
+    ]
+  }
+]

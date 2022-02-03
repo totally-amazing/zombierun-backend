@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "61fb705f939afdfb71e704bc",
+    "mode": "Solo",
+    "players": {
+      "61fb6ad0939afdfb71e704af": {
+        "isWinner": true,
+        "distance": 1.4,
+        "time": 30,
+        "speed": 3.6,
+        "role": "Human"
+      }
+    }
+  },
+  {
+    "_id": "61fb705f939afdfb71e704bd",
+    "mode": "Survival",
+    "players": {
+      "61fb6ad0939afdfb71e704ae": {
+        "isWinner": true,
+        "distance": 1.4,
+        "time": 30,
+        "speed": 3.6,
+        "role": "Human"
+      },
+      "61fb6ad0939afdfb71e704af": {
+        "isWinner": false,
+        "distance": 0,
+        "time": 0,
+        "speed": 0,
+        "role": "Human"
+      },
+      "61fb6ad0939afdfb71e704b0": {
+        "isWinner": false,
+        "distance": 0,
+        "time": 0,
+        "speed": 0,
+        "role": "Human"
+      }
+    }
+  },
+  {
+    "_id": "61fb705f939afdfb71e704be",
+    "mode": "OneOnOne",
+    "players": {
+      "61fb6ad0939afdfb71e704af": {
+        "isWinner": true,
+        "distance": 1.4,
+        "time": 30,
+        "speed": 3.6,
+        "role": "Human"
+      },
+      "61fb6ad0939afdfb71e704b0": {
+        "isWinner": false,
+        "distance": 0,
+        "time": 0,
+        "speed": 0,
+        "role": "Zombie"
+      }
+    }
+  }
+]
