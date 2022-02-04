@@ -3,6 +3,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
     node: true,
+    'jest/globals': true,
   },
   extends: [
     'airbnb',
@@ -30,14 +31,15 @@ module.exports = {
       'error',
       {
         allowAfterThis: true,
+        allow: ['_getData'],
       },
     ],
-    camelcase: [
+    'class-methods-use-this': [
       'error',
       {
-        ignoreDestructuring: true,
+        enforceForClassFields: false,
       },
     ],
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jest'],
 };
