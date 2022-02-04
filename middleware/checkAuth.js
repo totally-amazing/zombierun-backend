@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
+
 const { TOKEN_EXPIRED_ERROR } = require('../constants');
 const User = require('../models/User');
-
 const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
 
 const vertifyToken = async () => (req, res, next) => {
@@ -10,7 +10,6 @@ const vertifyToken = async () => (req, res, next) => {
   }
 
   try {
-
     const accessToken = req.headers.authorization.split(' ')[1];
 
     const decodedAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
@@ -47,7 +46,6 @@ const vertifyToken = async () => (req, res, next) => {
     });
 
   } catch (error) {
-
     if (error.name === TOKEN_EXPIRED_ERROR) {
       const expiredDecodedAccessToken =
         jwt.verify(accessToken, process.env.JWT_SECRET_KEY, { ignoreExpiration: true });
