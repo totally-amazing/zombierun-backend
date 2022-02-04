@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const ERROR = require('../constants').ERROR;
+const { TOKEN_EXPIRED_ERROR } = require('../constants');
 const User = require('../models/User');
 
 const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
@@ -42,6 +42,7 @@ const vertifyToken = async () => (req, res, next) => {
         }
       }
 
+      req.user = { id, nickname, imageUrl };
       return next();
     });
 
@@ -72,6 +73,7 @@ const vertifyToken = async () => (req, res, next) => {
         });
 
         req.token = newAccessToken;
+        req.user = { id, nickname, imageUrl };
         return next();
       })
     } else {
