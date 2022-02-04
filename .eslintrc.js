@@ -3,6 +3,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
     node: true,
+    'jest/globals': true,
   },
   extends: [
     'airbnb',
@@ -26,6 +27,19 @@ module.exports = {
         printWidth: 80,
       },
     ],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allowAfterThis: true,
+        allow: ['_getData'],
+      },
+    ],
+    'class-methods-use-this': [
+      'error',
+      {
+        enforceForClassFields: false,
+      },
+    ],
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jest'],
 };
