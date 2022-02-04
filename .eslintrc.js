@@ -26,6 +26,18 @@ module.exports = {
         printWidth: 80,
       },
     ],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allowAfterThis: true,
+      },
+    ],
+    camelcase: [
+      'error',
+      {
+        ignoreDestructuring: true,
+      },
+    ],
   },
   plugins: ['prettier'],
 };
