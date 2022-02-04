@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { useVirtualId } = require('../database/database');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -22,9 +23,6 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-userSchema.virtual('id').get(function getId() {
-  return this._id.toString();
-});
-userSchema.set('toJSON', { virtuals: true });
+useVirtualId(userSchema);
 
 module.exports = mongoose.model('User', userSchema);

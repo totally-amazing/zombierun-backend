@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -10,9 +9,10 @@ const userRouter = require('./routes/user');
 const gameRouter = require('./routes/game');
 const roomRouter = require('./routes/room');
 const { ERROR } = require('./constants');
+const { connectDB } = require('./database/database');
 const config = require('./config');
 
-mongoose.connect(config.db.host);
+connectDB();
 
 const app = express();
 
