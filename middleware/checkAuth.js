@@ -2,13 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const { TOKEN_EXPIRED_ERROR } = require('../constants');
 const User = require('../models/User');
-const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
 
 const vertifyToken = async () => (req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    return next();
-  }
-
   try {
     const accessToken = req.headers.authorization.split(' ')[1];
 
