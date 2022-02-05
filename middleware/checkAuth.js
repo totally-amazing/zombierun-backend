@@ -42,7 +42,7 @@ const vertifyToken = async (req, res, next) => {
             req.user = { id, nickname, imageUrl };
             return next();
           }
-
+          error.status = 401;
           return next(error);
         }
 
