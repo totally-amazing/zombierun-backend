@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
 
-async function vertifyToken(req, res, next) {
+const vertifyToken = async (req, res, next) => {
   try {
     const accessToken = req.headers.authorization.split(' ')[1];
 
@@ -68,6 +68,7 @@ async function vertifyToken(req, res, next) {
 
       jwt.verify(refreshToken, process.env.JWT_SECRET_KEY, (err, decoded) => {
         if (err) {
+          err.status = 401;
           return next(err);
         }
 
@@ -92,6 +93,6 @@ async function vertifyToken(req, res, next) {
       return next(error);
     }
   }
-}
+};
 
 module.exports = vertifyToken;
