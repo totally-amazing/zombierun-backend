@@ -31,7 +31,7 @@ module.exports = {
       'error',
       {
         allowAfterThis: true,
-        allow: ['_getData'],
+        allow: ['_getData', '_id'],
       },
     ],
     'class-methods-use-this': [
