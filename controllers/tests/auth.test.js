@@ -8,12 +8,13 @@ jest.mock('../../service/token');
 jest.mock('../../models/User');
 
 describe('Auth Controller', () => {
-  const user = {
-    id: 'id',
-    nickname: 'nickname',
-    imageUrl: 'imageUrl',
-  };
   describe('signIn', () => {
+    const user = {
+      id: 'id',
+      nickname: 'nickname',
+      imageUrl: 'imageUrl',
+    };
+
     it('데이터 베이스에 유저가 없으면 새로운 유저 데이터를 생성한다.', async () => {
       const req = createRequest({
         url: '/auth/signin',
