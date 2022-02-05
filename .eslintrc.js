@@ -15,6 +15,7 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'consistent-return': 'off',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'import/no-unresolved': 'off',
@@ -26,6 +27,19 @@ module.exports = {
         printWidth: 80,
       },
     ],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allowAfterThis: true,
+        allow: ['_getData'],
+      },
+    ],
+    'class-methods-use-this': [
+      'error',
+      {
+        enforceForClassFields: false,
+      },
+    ],
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jest'],
 };
