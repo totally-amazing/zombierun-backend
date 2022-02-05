@@ -3,16 +3,16 @@ const { createRequest, createResponse } = require('node-mocks-http');
 const Game = require('../../models/Game');
 const dummyUser = require('../../models/sample_user.json')[1];
 const dummyGames = require('../../models/sample_game.json');
-const { getTotalRecord } = require('../user');
+const { getTotalRecord } = require('../game');
 
 jest.mock('../../models/Game');
 
-describe('User Controller', () => {
+describe('Game Controller', () => {
   describe('getTotalRecord', () => {
     it('parameter로 받은 id와 일치하는 유저의 total record를 응답한다.', async () => {
       const req = createRequest({
-        params: {
-          id: dummyUser._id,
+        query: {
+          userId: dummyUser._id,
         },
       });
       const res = createResponse();
