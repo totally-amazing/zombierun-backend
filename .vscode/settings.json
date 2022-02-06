@@ -9,7 +9,7 @@
     "source.fixAll.eslint": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "eslint.codeAction.showDocumentation": {
