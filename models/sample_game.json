@@ -33,6 +33,7 @@
     "players": [
       {
         "id": "61fb6ad0939afdfb71e704ae",
+        "isWinner": true,
         "distance": 1.4,
         "time": 30,
         "speed": 3.6,
