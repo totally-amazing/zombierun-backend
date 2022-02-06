@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const playerSchema = new mongoose.Schema({
+  id: {
+    type: mongoose.Types.ObjectId,
+    require: true,
+  },
   isWinner: {
     type: Boolean,
     required: true,
@@ -33,11 +37,22 @@ const gameSchema = new mongoose.Schema(
       enum: ['Solo', 'OneOnOne', 'Surviavl'],
     },
     players: {
-      type: Map,
-      of: playerSchema,
+      type: [playerSchema],
+      required: true,
     },
   },
   { timestamps: { createdAt: 'createdAt' } }
 );
 
-module.exports = mongoose.model('Game', gameSchema);
+const Game = mongoose.model('Game', gameSchema);
+
+exports.getGamesByUserId = async (userId) => {
+  const games = await Game.find()
+    .where('players')
+    .elemMatch({ id: userId })
+    .lean();
+
+  return games;
+};
+
+module.exports = Game;

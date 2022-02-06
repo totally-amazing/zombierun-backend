@@ -41,4 +41,4 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(message);
 });
 
-app.listen(8080);
+app.listen(config.port);
