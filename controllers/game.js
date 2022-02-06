@@ -53,10 +53,12 @@ exports.getTotalRecord = async (req, res) => {
 exports.getRecentRecord = async (req, res) => {
   const { userId } = req.query;
   const initialRecord = {
-    isWinner: false,
     distance: 0,
     time: 0,
     speed: 0,
+    solo: {
+      isWinner: false,
+    },
   };
 
   const user = await User.findById(userId);
@@ -73,8 +75,10 @@ exports.getRecentRecord = async (req, res) => {
 
   return res.send({
     distance: recentRecord.distance,
-    isWinner: recentRecord.isWinner,
     speed: recentRecord.speed,
     time: recentRecord.time,
+    [lastGame.mode]: {
+      isWinner: recentRecord.isWinner,
+    },
   });
 };

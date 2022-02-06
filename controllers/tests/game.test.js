@@ -68,10 +68,12 @@ describe('Game Controller', () => {
       await getRecentRecord(req, res);
 
       expect(res._getData()).toEqual({
-        isWinner: true,
         distance: 1.4,
         time: 30,
         speed: 3.6,
+        Survival: {
+          isWinner: true,
+        },
       });
     });
   });
