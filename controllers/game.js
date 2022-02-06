@@ -62,12 +62,12 @@ exports.getRecentRecord = async (req, res) => {
   };
 
   const user = await User.findById(userId);
-  const lastGameId = user.gameHistory[user.gameHistory.length - 1];
 
-  if (!lastGameId) {
+  if (!user.gameHistory.length) {
     return res.send(initialRecord);
   }
 
+  const lastGameId = user.gameHistory.at(-1);
   const lastGame = await Game.findById(lastGameId);
   const recentRecord = lastGame.players.find(
     (player) => player.id.toString() === userId
