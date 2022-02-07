@@ -1,8 +1,10 @@
-const { getGamesByUserId } = require('../models/Game');
+const { Game, getGamesByUserId } = require('../models/Game');
 const { convertFirstLetterCase } = require('../utils');
+const User = require('../models/User');
 
 exports.getTotalRecord = async (req, res) => {
   const { userId } = req.query;
+
   const initialRecord = {
     distance: 0,
     time: 0,
@@ -46,4 +48,37 @@ exports.getTotalRecord = async (req, res) => {
   }, initialRecord);
 
   return res.send(totalRecord);
+};
+
+exports.getRecentRecord = async (req, res) => {
+  const { userId } = req.query;
+  const initialRecord = {
+    distance: 0,
+    time: 0,
+    speed: 0,
+    solo: {
+      isWinner: false,
+    },
+  };
+
+  const user = await User.findById(userId);
+
+  if (!user.gameHistory.length) {
+    return res.send(initialRecord);
+  }
+
+  const lastGameId = user.gameHistory.at(-1);
+  const lastGame = await Game.findById(lastGameId);
+  const recentRecord = lastGame.players.find(
+    (player) => player.id.toString() === userId
+  );
+
+  return res.send({
+    distance: recentRecord.distance,
+    speed: recentRecord.speed,
+    time: recentRecord.time,
+    [lastGame.mode]: {
+      isWinner: recentRecord.isWinner,
+    },
+  });
 };

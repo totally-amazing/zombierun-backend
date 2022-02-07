@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/', (req, res, next) => {});
 router.get('/total', validateQuery, gameController.getTotalRecord);
-router.get('/recent', validateQuery, (req, res, next) => {});
+router.get('/recent', validateQuery, gameController.getRecentRecord);
 
 module.exports = router;

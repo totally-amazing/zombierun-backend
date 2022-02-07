@@ -55,4 +55,4 @@ exports.getGamesByUserId = async (userId) => {
   return games;
 };
 
-module.exports = Game;
+exports.Game = Game;
