@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
       ref: 'Game',
     },
   ],
+  refreshToken: {
+    type: String,
+    unique: true,
+  },
 });
 
 useVirtualId(userSchema);
