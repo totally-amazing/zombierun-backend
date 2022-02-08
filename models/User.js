@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { useVirtualId } = require('../database/database');
 
 const userSchema = new mongoose.Schema({

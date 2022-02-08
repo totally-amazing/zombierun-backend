@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { useVirtualId } = require('../database/database');
+
 const roomSchema = mongoose.Schema({
   mode: {
     type: String,
@@ -20,5 +22,7 @@ const roomSchema = mongoose.Schema({
     },
   ],
 });
+
+useVirtualId(roomSchema);
 
 module.exports = mongoose.model('Room', roomSchema);
