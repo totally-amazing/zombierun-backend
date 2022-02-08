@@ -32,14 +32,14 @@ exports.validateRoom = (req, res, next) => {
     throw new Error('mode는 survival, oneOnOne, solo 중에 하나여야 합니다');
   }
 
+  if (!(typeof title === 'string')) {
+    throw new Error('title은 문자열이어야 합니다');
+  }
+
   req.body.title = req.body.title.trim();
 
   if (!req.body.title) {
     throw new Error('title이 없습니다');
-  }
-
-  if (!(typeof title === 'string')) {
-    throw new Error('title은 문자열이어야 합니다');
   }
 
   if (speed && !(typeof speed === 'number')) {
