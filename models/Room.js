@@ -5,7 +5,7 @@ const { useVirtualId } = require('../database/database');
 const roomSchema = mongoose.Schema({
   mode: {
     type: String,
-    enum: ['OneOnOne', 'Survival'],
+    enum: ['oneOnOne', 'survival'],
     required: true,
   },
   title: {

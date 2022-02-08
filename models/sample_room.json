@@ -1,13 +1,13 @@
 [
   {
-    "mode": "OneOnOne",
+    "mode": "oneOnOne",
     "title": "test room 1",
     "speed": null,
     "time": 30,
     "participants": ["61fb6ad0939afdfb71e704ae", "61fb6ad0939afdfb71e704af"]
   },
   {
-    "mode": "Survival",
+    "mode": "survival",
     "title": "test room 2",
     "speed": 6,
     "time": null,
@@ -18,7 +18,7 @@
     ]
   },
     {
-    "mode": "Survival",
+    "mode": "survival",
     "title": "test room 3",
     "speed": 4,
     "time": null,

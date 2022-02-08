@@ -1,5 +1,4 @@
 const { Game, getGamesByUserId } = require('../models/Game');
-const { convertFirstLetterCase } = require('../utils');
 const User = require('../models/User');
 
 exports.getTotalRecord = async (req, res) => {
@@ -36,12 +35,11 @@ exports.getTotalRecord = async (req, res) => {
     const total = { ...acc };
     total.distance += game.distance;
     total.time += game.time;
-    const mode = convertFirstLetterCase(game.mode);
 
     if (game.isWinner) {
-      total[mode].isWinner += 1;
-    } else if (total[mode].isLoser !== undefined) {
-      total[mode].isLoser += 1;
+      total[game.mode].isWinner += 1;
+    } else if (total[game.mode].isLoser !== undefined) {
+      total[game.mode].isLoser += 1;
     }
 
     return total;

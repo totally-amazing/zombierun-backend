@@ -71,7 +71,7 @@ describe('Game Controller', () => {
         distance: 1.4,
         time: 30,
         speed: 3.6,
-        Survival: {
+        survival: {
           isWinner: true,
         },
       });
