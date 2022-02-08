@@ -2,7 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {});
+const roomController = require('../controllers/room');
+
+router.get('/', roomController.getRoomList);
 router.post('/', (req, res, next) => {});
 router.put('/:id/enter', (req, res, next) => {});
 router.put('/:id/exit', (req, res, next) => {});
