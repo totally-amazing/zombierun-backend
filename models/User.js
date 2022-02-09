@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { useVirtualId } = require('../database/database');
+
+const { useVirtualId, validateUnique } = require('../database/database');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -21,8 +22,13 @@ const userSchema = new mongoose.Schema({
       ref: 'Game',
     },
   ],
+  refreshToken: {
+    type: String,
+    unique: true,
+  },
 });
 
 useVirtualId(userSchema);
+validateUnique(userSchema);
 
 module.exports = mongoose.model('User', userSchema);

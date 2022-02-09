@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
 const config = require('../config');
 
 exports.connectDB = () => {
@@ -14,4 +16,8 @@ exports.useVirtualId = (schema) => {
   });
   schema.set('toJSON', { virtuals: true });
   schema.set('toObject', { virtuals: true });
+};
+
+exports.validateUnique = (schema) => {
+  schema.plugin(uniqueValidator);
 };

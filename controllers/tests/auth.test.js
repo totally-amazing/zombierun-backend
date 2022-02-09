@@ -65,7 +65,7 @@ describe('Auth Controller', () => {
       });
     });
 
-    it('id, nickname, accessToken으로 응답한다.', async () => {
+    it('id, nickname, imageUrl, accessToken으로 응답한다.', async () => {
       const req = createRequest({
         url: '/auth/signin',
         body: {
@@ -79,6 +79,7 @@ describe('Auth Controller', () => {
 
       expect(res._getData()).toEqual({
         id: 'id',
+        imageUrl: 'imageUrl',
         nickname: 'nickname',
         token: 'accessToken',
       });

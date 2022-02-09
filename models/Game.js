@@ -24,8 +24,8 @@ const playerSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ['Human', 'Zombie'],
-    default: 'Human',
+    enum: ['human', 'zombie'],
+    default: 'human',
   },
 });
 
@@ -34,7 +34,7 @@ const gameSchema = new mongoose.Schema(
     mode: {
       type: String,
       required: true,
-      enum: ['Solo', 'OneOnOne', 'Surviavl'],
+      enum: ['solo', 'oneOnOne', 'surviavl'],
     },
     players: {
       type: [playerSchema],

@@ -15,6 +15,7 @@ exports.signIn = async (req, res, next) => {
       nickname,
       imageUrl,
       gameHistory: [],
+      refreshToken: null,
     });
   }
 
@@ -29,5 +30,10 @@ exports.signIn = async (req, res, next) => {
 
   await User.findByIdAndUpdate(user.id, { refreshToken });
 
-  res.send({ id: user.id, nickname: user.nickname, token: accessToken });
+  res.send({
+    id: user.id,
+    nickname: user.nickname,
+    imageUrl: user.imageUrl,
+    token: accessToken,
+  });
 };
