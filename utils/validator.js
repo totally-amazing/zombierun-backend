@@ -8,10 +8,8 @@ function required(value) {
   }
 }
 
-async function validateId(id) {
-  if (!id) {
-    throw new Error('id가 없습니다');
-  }
+function validateId(id) {
+  required(id);
 
   if (!mongoose.isValidObjectId(id)) {
     throw new Error('유효하지 않은 id입니다');
@@ -26,19 +24,19 @@ async function findExistentUserId(userId) {
   }
 }
 
-function checkTypeofNumber(number) {
+function checkTypeOfNumber(number) {
   if (!(typeof number === 'number')) {
     throw new Error('숫자가 아닙니다');
   }
 }
 
-function checkTypeofString(string) {
+function checkTypeOfString(string) {
   if (!(typeof string === 'string')) {
     throw new Error('글자가 아닙니다');
   }
 }
 
-function checkTypeofBoolean(boolean) {
+function checkTypeOfBoolean(boolean) {
   if (!(typeof boolean === 'boolean')) {
     throw new Error('불린이 아닙니다');
   }
@@ -48,7 +46,7 @@ module.exports = {
   required,
   validateId,
   findExistentUserId,
-  checkTypeofNumber,
-  checkTypeofString,
-  checkTypeofBoolean,
+  checkTypeOfNumber,
+  checkTypeOfString,
+  checkTypeOfBoolean,
 };

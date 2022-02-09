@@ -3,9 +3,9 @@ const {
   required,
   validateId,
   findExistentUserId,
-  checkTypeofNumber,
-  checkTypeofString,
-  checkTypeofBoolean,
+  checkTypeOfNumber,
+  checkTypeOfString,
+  checkTypeOfBoolean,
 } = require('../utils/validator');
 
 exports.validateQuery = (req, res, next) => {
@@ -26,7 +26,7 @@ exports.validateRoom = (req, res, next) => {
     throw new Error('mode는 survival, oneOnOne, solo 중에 하나여야 합니다');
   }
 
-  checkTypeofString(title);
+  checkTypeOfString(title);
 
   req.body.title = req.body.title.trim();
   required(req.body.title);
@@ -50,7 +50,7 @@ exports.validateRoom = (req, res, next) => {
   next();
 };
 
-exports.validateGameHistory = async (req, res, next) => {
+exports.validateGameRecord = async (req, res, next) => {
   const { player, gameId } = req.body;
   const { id, isWinner, distance, time, speed, role } = player;
 
@@ -71,10 +71,10 @@ exports.validateGameHistory = async (req, res, next) => {
   required(speed);
   required(role);
 
-  checkTypeofBoolean(isWinner);
-  checkTypeofNumber(distance);
-  checkTypeofNumber(time);
-  checkTypeofNumber(speed);
+  checkTypeOfBoolean(isWinner);
+  checkTypeOfNumber(distance);
+  checkTypeOfNumber(time);
+  checkTypeOfNumber(speed);
 
   if (!['human', 'zombie'].includes(role)) {
     throw new Error('role은 human, zombie 중에 하나여야 합니다');
