@@ -1,4 +1,5 @@
 const Room = require('../models/Room');
+const Game = require('../models/Game');
 
 class SocketListener {
   constructor(io) {
@@ -88,6 +89,26 @@ class SocketListener {
         socket.leave(socket.roomId);
 
         console.log(`socket::::: user ${socket.userId} is dead`);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  };
+
+  startGame = (socket) => {
+    socket.on('game/start', async (mode) => {
+      try {
+        this.checkIfJoinRoom(socket);
+
+        const { id } = await Game.create({
+          mode,
+          players: [],
+        });
+        await Room.findByIdAndDelete(socket.roomId);
+
+        this.io.to(socket.roomId).emit('game/start', id);
+
+        console.log(`socket::::: game started: ${socket.roomId}`);
       } catch (error) {
         console.error(error);
       }

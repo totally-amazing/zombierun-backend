@@ -20,6 +20,7 @@ class Socket {
       this.listener.notReady(socket);
       this.listener.leaveRoom(socket);
       this.listener.die(socket);
+      this.listener.startGame(socket);
     });
   }
 }
