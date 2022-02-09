@@ -1,7 +1,7 @@
 const { Server } = require('socket.io');
 
-const SocketListener = require('../service/socket');
 const config = require('../config');
+const listener = require('./listener');
 
 class Socket {
   constructor(server) {
@@ -10,17 +10,28 @@ class Socket {
         origin: config.cors.allowOrigin,
       },
     });
-    this.listener = new SocketListener(this.io);
 
     this.io.on('connect', (socket) => {
       console.log(`socket::::: ${socket.id} connected`);
 
-      this.listener.joinRoom(socket);
-      this.listener.ready(socket);
-      this.listener.notReady(socket);
-      this.listener.leaveRoom(socket);
-      this.listener.die(socket);
-      this.listener.startGame(socket);
+      socket.on('user/join', (roomId, userId) => {
+        listener.joinRoom(socket, roomId, userId);
+      });
+      socket.on('user/ready', () => {
+        listener.ready(socket);
+      });
+      socket.on('user/notReady', () => {
+        listener.notReady(socket);
+      });
+      socket.on('user/leave', () => {
+        listener.leaveRoom(socket);
+      });
+      socket.on('user/die', () => {
+        listener.die(socket);
+      });
+      socket.on('game/start', (mode) => {
+        listener.startGame(socket, mode);
+      });
     });
   }
 }
