@@ -80,3 +80,16 @@ exports.getRecentRecord = async (req, res) => {
     },
   });
 };
+
+exports.updateGameRecord = async (req, res) => {
+  const { player, gameId } = req.body;
+  const { id, isWinner, distance, time, speed, role } = player;
+
+  await Game.findByIdAndUpdate(gameId, {
+    $push: { players: { id, isWinner, distance, time, speed, role } },
+  });
+
+  await User.findByIdAndUpdate(id, { $push: { gameHistory: gameId } });
+
+  res.status(201).end();
+};
