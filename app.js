@@ -2,15 +2,17 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+const { Server } = require('socket.io');
 require('express-async-errors');
 
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const gameRouter = require('./routes/game');
 const roomRouter = require('./routes/room');
+const config = require('./config');
 const { ERROR } = require('./constants');
 const { connectDB } = require('./database/database');
-const config = require('./config');
+const { initSocket } = require('./connection/socket');
 
 connectDB();
 
@@ -38,7 +40,9 @@ app.use((err, req, res, next) => {
   const message =
     req.app.get('env') === 'development' ? err.message : 'Server error';
 
+  console.error(err);
   res.status(err.status || 500).send(message);
 });
 
-app.listen(config.port);
+const server = app.listen(config.port);
+initSocket(server);
