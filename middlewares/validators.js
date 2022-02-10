@@ -1,4 +1,5 @@
 const { Game } = require('../models/Game');
+const Room = require('../models/Room');
 const {
   required,
   validateId,
@@ -13,6 +14,20 @@ exports.validateQuery = (req, res, next) => {
 
   validateId(userId);
   findExistentUserId(userId);
+
+  return next();
+};
+
+exports.validateRoomId = async (req, res, next) => {
+  const { id } = req.params;
+
+  validateId(id);
+
+  const roomId = await Room.findById(id);
+
+  if (!roomId) {
+    throw new Error('해당 id를 찾을 수 없습니다');
+  }
 
   return next();
 };

@@ -2,7 +2,7 @@ const { createRequest, createResponse } = require('node-mocks-http');
 
 const dummyRooms = require('../../models/sample_room.json');
 const Room = require('../../models/Room');
-const { getRoomList, createRoom } = require('../room');
+const { getRoomList, createRoom, deleteRoom } = require('../room');
 
 jest.mock('../../models/Room');
 
@@ -42,6 +42,26 @@ describe('Room Cotroller', () => {
 
       expect(Room.create).toBeCalledWith({ ...room, participants: [] });
       expect(res._getData()).toEqual({ id: 'id' });
+    });
+  });
+
+  describe('deleteRoom', () => {
+    it('존재하는 방을 삭제하고 204 http 요청메서드를 응답한다', async () => {
+      const id = '6204817fd89446b84f8d8130';
+      const req = createRequest({
+        url: '/room/:id',
+        method: 'DELETE',
+        params: {
+          id,
+        },
+      });
+      const res = createResponse();
+      Room.deleteOne = jest.fn(async () => {});
+
+      await deleteRoom(req, res);
+
+      expect(Room.deleteOne).toBeCalledWith({ id });
+      expect(res.statusCode).toBe(204);
     });
   });
 });
