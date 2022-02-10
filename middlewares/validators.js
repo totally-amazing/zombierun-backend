@@ -1,22 +1,18 @@
-const mongoose = require('mongoose');
-const User = require('../models/User');
+const { Game } = require('../models/Game');
+const {
+  required,
+  validateId,
+  findExistentUserId,
+  checkTypeOfNumber,
+  checkTypeOfString,
+  checkTypeOfBoolean,
+} = require('../utils/validator');
 
-exports.validateQuery = async (req, res, next) => {
+exports.validateQuery = (req, res, next) => {
   const { userId } = req.query;
 
-  if (!userId) {
-    throw new Error('userId 쿼리를 전달해주어야 합니다.');
-  }
-
-  if (!mongoose.isValidObjectId(userId)) {
-    throw new Error('유효하지 않은 userId 입니다');
-  }
-
-  const user = await User.findById(userId);
-
-  if (!user) {
-    throw new Error(`해당 유저를 찾을 수 없습니다 id: ${userId}`);
-  }
+  validateId(userId);
+  findExistentUserId(userId);
 
   return next();
 };
@@ -24,23 +20,16 @@ exports.validateQuery = async (req, res, next) => {
 exports.validateRoom = (req, res, next) => {
   const { mode, title, speed, time } = req.body;
 
-  if (!mode) {
-    throw new Error('mode가 없습니다');
-  }
+  required(mode);
 
   if (!['survival', 'oneOnOne', 'solo'].includes(mode)) {
     throw new Error('mode는 survival, oneOnOne, solo 중에 하나여야 합니다');
   }
 
-  if (!(typeof title === 'string')) {
-    throw new Error('title은 문자열이어야 합니다');
-  }
+  checkTypeOfString(title);
 
   req.body.title = req.body.title.trim();
-
-  if (!req.body.title) {
-    throw new Error('title이 없습니다');
-  }
+  required(req.body.title);
 
   if (speed && !(typeof speed === 'number')) {
     throw new Error('speed는 숫자여야 합니다');
@@ -59,4 +48,37 @@ exports.validateRoom = (req, res, next) => {
   }
 
   next();
+};
+
+exports.validateGameRecord = async (req, res, next) => {
+  const { player, gameId } = req.body;
+  const { id, isWinner, distance, time, speed, role } = player;
+
+  validateId(gameId);
+
+  const game = await Game.findById(gameId);
+
+  if (!game) {
+    throw new Error(`해당 게임을 찾을 수 없습니다 id: ${gameId}`);
+  }
+
+  validateId(id);
+  findExistentUserId(id);
+
+  required(isWinner);
+  required(distance);
+  required(time);
+  required(speed);
+  required(role);
+
+  checkTypeOfBoolean(isWinner);
+  checkTypeOfNumber(distance);
+  checkTypeOfNumber(time);
+  checkTypeOfNumber(speed);
+
+  if (!['human', 'zombie'].includes(role)) {
+    throw new Error('role은 human, zombie 중에 하나여야 합니다');
+  }
+
+  return next();
 };
