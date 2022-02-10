@@ -42,6 +42,18 @@ function checkTypeOfBoolean(boolean) {
   }
 }
 
+function checkTypeOfMode(mode) {
+  if (!['survival', 'oneOnOne', 'solo'].includes(mode)) {
+    throw new Error('mode는 survival, oneOnOne, solo 중에 하나여야 합니다');
+  }
+}
+
+function checkTypeOfRole(role) {
+  if (!['human', 'zombie'].includes(role)) {
+    throw new Error('role은 human, zombie 중에 하나여야 합니다');
+  }
+}
+
 module.exports = {
   required,
   validateId,
@@ -49,4 +61,6 @@ module.exports = {
   checkTypeOfNumber,
   checkTypeOfString,
   checkTypeOfBoolean,
+  checkTypeOfMode,
+  checkTypeOfRole,
 };

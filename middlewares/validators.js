@@ -7,6 +7,8 @@ const {
   checkTypeOfNumber,
   checkTypeOfString,
   checkTypeOfBoolean,
+  checkTypeOfMode,
+  checkTypeOfRole,
 } = require('../utils/validator');
 
 exports.validateQuery = (req, res, next) => {
@@ -37,9 +39,7 @@ exports.validateRoom = (req, res, next) => {
 
   required(mode);
 
-  if (!['survival', 'oneOnOne', 'solo'].includes(mode)) {
-    throw new Error('mode는 survival, oneOnOne, solo 중에 하나여야 합니다');
-  }
+  checkTypeOfMode(mode);
 
   checkTypeOfString(title);
 
@@ -65,7 +65,32 @@ exports.validateRoom = (req, res, next) => {
   next();
 };
 
-exports.validateGameRecord = async (req, res, next) => {
+exports.validateCreateGameRecord = async (req, res, next) => {
+  const {
+    player: { id, isWinner, distance, time, speed, role },
+    mode,
+  } = req.body;
+
+  validateId(id);
+  findExistentUserId(id);
+
+  required(distance);
+  required(time);
+  required(speed);
+  required(role);
+  required(mode);
+
+  checkTypeOfBoolean(isWinner);
+  checkTypeOfNumber(distance);
+  checkTypeOfNumber(time);
+  checkTypeOfNumber(speed);
+  checkTypeOfRole(role);
+  checkTypeOfMode(mode);
+
+  return next();
+};
+
+exports.validateUpdateGameRecord = async (req, res, next) => {
   const { id } = req.params;
   const { id: userId, isWinner, distance, time, speed, role } = req.body;
 
@@ -89,10 +114,7 @@ exports.validateGameRecord = async (req, res, next) => {
   checkTypeOfNumber(distance);
   checkTypeOfNumber(time);
   checkTypeOfNumber(speed);
-
-  if (!['human', 'zombie'].includes(role)) {
-    throw new Error('role은 human, zombie 중에 하나여야 합니다');
-  }
+  checkTypeOfRole(role);
 
   return next();
 };
