@@ -66,21 +66,20 @@ exports.validateRoom = (req, res, next) => {
 };
 
 exports.validateGameRecord = async (req, res, next) => {
-  const { player, gameId } = req.body;
-  const { id, isWinner, distance, time, speed, role } = player;
-
-  validateId(gameId);
-
-  const game = await Game.findById(gameId);
-
-  if (!game) {
-    throw new Error(`해당 게임을 찾을 수 없습니다 id: ${gameId}`);
-  }
+  const { id } = req.params;
+  const { id: userId, isWinner, distance, time, speed, role } = req.body;
 
   validateId(id);
-  findExistentUserId(id);
 
-  required(isWinner);
+  const game = await Game.findById(id);
+
+  if (!game) {
+    throw new Error(`해당 게임을 찾을 수 없습니다 id: ${id}`);
+  }
+
+  validateId(userId);
+  findExistentUserId(userId);
+
   required(distance);
   required(time);
   required(speed);

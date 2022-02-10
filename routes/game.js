@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.get('/total', validateQuery, gameController.getTotalRecord);
 router.get('/recent', validateQuery, gameController.getRecentRecord);
-router.put('/', validateGameRecord, gameController.updateGameRecord);
+router.put('/:id', validateGameRecord, gameController.updateGameRecord);
 
 module.exports = router;
