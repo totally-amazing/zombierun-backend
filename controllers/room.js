@@ -18,3 +18,11 @@ exports.createRoom = async (req, res) => {
 
   res.send({ id });
 };
+
+exports.deleteRoom = async (req, res) => {
+  const { id } = req.params;
+
+  await Room.deleteOne({ id });
+
+  res.status(204).end();
+};
