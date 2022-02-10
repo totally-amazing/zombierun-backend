@@ -108,7 +108,7 @@ exports.updateGameRecord = async (req, res) => {
   const { id: userId, isWinner, distance, time, speed, role } = req.body;
 
   await Game.findByIdAndUpdate(id, {
-    $push: { players: { userId, isWinner, distance, time, speed, role } },
+    $push: { players: { id: userId, isWinner, distance, time, speed, role } },
   });
 
   await User.findByIdAndUpdate(userId, { $push: { gameHistory: id } });
