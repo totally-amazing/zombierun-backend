@@ -75,7 +75,7 @@ exports.getRecentRecord = async (req, res) => {
     distance: recentRecord.distance,
     speed: recentRecord.speed,
     time: recentRecord.time,
-    rolo: recentRecord.role,
+    role: recentRecord.role,
     mode: lastGame.mode,
   });
 };

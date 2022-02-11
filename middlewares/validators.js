@@ -37,14 +37,14 @@ exports.validateRoomId = async (req, res, next) => {
 exports.validateRoom = (req, res, next) => {
   const { mode, title, speed, time } = req.body;
 
-  required(mode);
+  required([mode]);
 
   checkTypeOfMode(mode);
 
   checkTypeOfString(title);
 
   req.body.title = req.body.title.trim();
-  required(req.body.title);
+  required([req.body.title]);
 
   if (speed && !(typeof speed === 'number')) {
     throw new Error('speed는 숫자여야 합니다');
@@ -74,11 +74,7 @@ exports.validateCreateGameRecord = async (req, res, next) => {
   validateId(id);
   findExistentUserId(id);
 
-  required(distance);
-  required(time);
-  required(speed);
-  required(role);
-  required(mode);
+  required([distance, time, speed, role, mode]);
 
   checkTypeOfBoolean(isWinner);
   checkTypeOfNumber(distance);
@@ -105,10 +101,7 @@ exports.validateUpdateGameRecord = async (req, res, next) => {
   validateId(userId);
   findExistentUserId(userId);
 
-  required(distance);
-  required(time);
-  required(speed);
-  required(role);
+  required([distance, time, speed, role]);
 
   checkTypeOfBoolean(isWinner);
   checkTypeOfNumber(distance);
