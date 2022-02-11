@@ -34,7 +34,7 @@ const gameSchema = new mongoose.Schema(
     mode: {
       type: String,
       required: true,
-      enum: ['solo', 'oneOnOne', 'surviavl'],
+      enum: ['solo', 'oneOnOne', 'survival'],
     },
     players: {
       type: [playerSchema],

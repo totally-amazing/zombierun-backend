@@ -54,9 +54,8 @@ exports.getRecentRecord = async (req, res) => {
     distance: 0,
     time: 0,
     speed: 0,
-    solo: {
-      isWinner: false,
-    },
+    isWinner: false,
+    mode: 'solo',
   };
 
   const user = await User.findById(userId);
@@ -72,24 +71,47 @@ exports.getRecentRecord = async (req, res) => {
   );
 
   return res.send({
+    isWinner: recentRecord.isWinner,
     distance: recentRecord.distance,
     speed: recentRecord.speed,
     time: recentRecord.time,
-    [lastGame.mode]: {
-      isWinner: recentRecord.isWinner,
-    },
+    role: recentRecord.role,
+    mode: lastGame.mode,
   });
 };
 
-exports.updateGameRecord = async (req, res) => {
-  const { player, gameId } = req.body;
-  const { id, isWinner, distance, time, speed, role } = player;
+exports.createGameRecord = async (req, res) => {
+  const {
+    player: { id, isWinner, distance, time, speed, role },
+    mode,
+  } = req.body;
 
-  await Game.findByIdAndUpdate(gameId, {
-    $push: { players: { id, isWinner, distance, time, speed, role } },
+  const result = await Game.create({
+    mode,
+    players: {
+      id,
+      isWinner,
+      distance,
+      time,
+      speed,
+      role,
+    },
   });
 
-  await User.findByIdAndUpdate(id, { $push: { gameHistory: gameId } });
+  await User.findByIdAndUpdate(id, { $push: { gameHistory: result._id } });
+
+  res.status(201).end();
+};
+
+exports.updateGameRecord = async (req, res) => {
+  const { id } = req.params;
+  const { id: userId, isWinner, distance, time, speed, role } = req.body;
+
+  await Game.findByIdAndUpdate(id, {
+    $push: { players: { id: userId, isWinner, distance, time, speed, role } },
+  });
+
+  await User.findByIdAndUpdate(userId, { $push: { gameHistory: id } });
 
   res.status(201).end();
 };

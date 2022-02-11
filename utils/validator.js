@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const User = require('../models/User');
 
-function required(value) {
-  if (!value) {
-    throw new Error('value가 없습니다');
+function required(array) {
+  if (!array.every((value) => value !== undefined)) {
+    throw new Error(`array의 undefined가 존재합니다. ${array}`);
   }
 }
 
 function validateId(id) {
-  required(id);
+  required([id]);
 
   if (!mongoose.isValidObjectId(id)) {
     throw new Error('유효하지 않은 id입니다');
@@ -42,6 +42,18 @@ function checkTypeOfBoolean(boolean) {
   }
 }
 
+function checkTypeOfMode(mode) {
+  if (!['survival', 'oneOnOne', 'solo'].includes(mode)) {
+    throw new Error('mode는 survival, oneOnOne, solo 중에 하나여야 합니다');
+  }
+}
+
+function checkTypeOfRole(role) {
+  if (!['human', 'zombie'].includes(role)) {
+    throw new Error('role은 human, zombie 중에 하나여야 합니다');
+  }
+}
+
 module.exports = {
   required,
   validateId,
@@ -49,4 +61,6 @@ module.exports = {
   checkTypeOfNumber,
   checkTypeOfString,
   checkTypeOfBoolean,
+  checkTypeOfMode,
+  checkTypeOfRole,
 };
