@@ -58,7 +58,7 @@ exports.validateRoom = (req, res, next) => {
     throw new Error('time은 숫자여야 합니다');
   }
 
-  if (time && !(time < 30 || time > 2000)) {
+  if (time && (time < 30 || time > 2000)) {
     throw new Error('time은 30 이상 2000이하여야 합니다');
   }
 

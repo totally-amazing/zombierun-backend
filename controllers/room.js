@@ -1,7 +1,7 @@
 const Room = require('../models/Room');
 
 exports.getRoomList = async (req, res) => {
-  const roomList = await Room.find().lean();
+  const roomList = await Room.find();
 
   return res.send(roomList);
 };
