@@ -40,10 +40,10 @@ exports.validateRoom = (req, res, next) => {
   required([mode]);
 
   checkTypeOfMode(mode);
-
   checkTypeOfString(title);
 
   req.body.title = req.body.title.trim();
+
   required([req.body.title]);
 
   if (speed && !(typeof speed === 'number')) {

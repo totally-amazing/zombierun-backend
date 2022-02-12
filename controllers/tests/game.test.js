@@ -73,6 +73,7 @@ describe('Game Controller', () => {
         speed: 3.6,
         isWinner: true,
         mode: 'survival',
+        role: 'human',
       });
     });
   });
