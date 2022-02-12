@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/User');
 
 const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';

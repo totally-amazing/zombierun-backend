@@ -38,7 +38,7 @@ function checkTypeOfString(string) {
 
 function checkTypeOfBoolean(boolean) {
   if (!(typeof boolean === 'boolean')) {
-    throw new Error('불린이 아닙니다');
+    throw new Error('불리언이 아닙니다');
   }
 }
 
