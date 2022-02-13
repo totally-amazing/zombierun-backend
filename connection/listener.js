@@ -1,7 +1,7 @@
 const Room = require('../models/Room');
 const Game = require('../models/Game');
 
-exports.joinRoom = async (socket, roomId, userId) => {
+exports.joinRoom = async (socket, roomId, user) => {
   if (socket.roomId) {
     console.error('이미 join된 room이 있습니다');
     return;
@@ -9,16 +9,16 @@ exports.joinRoom = async (socket, roomId, userId) => {
 
   try {
     const room = await Room.findById(roomId);
-    room.participants.push(userId);
+    room.participants.push(user);
     await room.save();
 
     socket.roomId = roomId;
-    socket.userId = userId;
+    socket.userId = user.id;
 
     socket.join(roomId);
-    socket.to(roomId).emit('user/join', userId);
+    socket.to(roomId).emit('room/join', user);
 
-    console.log(`socket::::: user ${userId} joined room`);
+    console.log(`socket::::: user ${user.id} joined room`);
   } catch (error) {
     console.error(error);
   }
@@ -28,7 +28,7 @@ exports.ready = (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('user/ready', socket.userId);
+    socket.to(socket.roomId).emit('room/ready', socket.userId);
 
     console.log(`socket::::: user ${socket.userId} is ready`);
   } catch (error) {
@@ -40,7 +40,7 @@ exports.notReady = (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('user/notReady', socket.userId);
+    socket.to(socket.roomId).emit('room/notReady', socket.userId);
 
     console.log(`socket::::: user ${socket.userId} is not ready`);
   } catch (error) {
@@ -61,7 +61,7 @@ exports.leaveRoom = async (socket) => {
 
     socket.roomId = null;
 
-    socket.to(socket.roomId).emit('user/leave', socket.userId);
+    socket.to(socket.roomId).emit('room/leave', socket.userId);
     socket.leave(socket.roomId);
 
     console.log(`socket::::: user ${socket.userId} left room`);
