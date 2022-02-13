@@ -33,11 +33,7 @@ class Socket {
         listener.startGame(socket, mode);
       });
       socket.on('game/userSpeed', (speed) => {
-        this.io.emit('game/opponentSpeed', Number(speed));
-        // listener.sendOpponentSpeed(socket, speed);
-      });
-      socket.on('game/test', () => {
-        this.io.emit('game/test');
+        listener.sendOpponentSpeed(socket, speed);
       });
     });
   }

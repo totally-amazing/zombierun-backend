@@ -53,7 +53,10 @@ exports.leaveRoom = async (socket) => {
     checkIfJoinRoom(socket);
 
     const room = await Room.findById(socket.roomId);
-    room.participants.remove(socket.userId);
+
+    room.participants = room.participants.filter(
+      (participant) => String(participant.id) !== socket.userId
+    );
     await room.save();
 
     socket.roomId = null;
