@@ -26,7 +26,7 @@ async function findExistentUserId(userId) {
 
 function checkTypeOfNumber(number) {
   if (!(typeof number === 'number')) {
-    throw new Error('숫자가 아닙니다');
+    throw new Error(`${number}는 숫자가 아닙니다`);
   }
 }
 
