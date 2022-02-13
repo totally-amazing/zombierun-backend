@@ -16,7 +16,8 @@ exports.joinRoom = async (socket, roomId, user) => {
     socket.userId = user.id;
 
     socket.join(roomId);
-    socket.to(roomId).emit('user/join', user);
+    socket.to(roomId).emit('room/join', user);
+
 
     console.log(`socket::::: user ${user.id} joined room`);
   } catch (error) {
@@ -28,7 +29,7 @@ exports.ready = (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('user/ready', socket.userId);
+    socket.to(socket.roomId).emit('room/ready', socket.userId);
 
     console.log(`socket::::: user ${socket.userId} is ready`);
   } catch (error) {
@@ -40,7 +41,7 @@ exports.notReady = (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('user/notReady', socket.userId);
+    socket.to(socket.roomId).emit('room/notReady', socket.userId);
 
     console.log(`socket::::: user ${socket.userId} is not ready`);
   } catch (error) {
@@ -53,12 +54,15 @@ exports.leaveRoom = async (socket) => {
     checkIfJoinRoom(socket);
 
     const room = await Room.findById(socket.roomId);
-    room.participants.remove(socket.userId);
+
+    room.participants = room.participants.filter(
+      (participant) => String(participant.id) !== socket.userId
+    );
     await room.save();
 
     socket.roomId = null;
 
-    socket.to(socket.roomId).emit('user/leave', socket.userId);
+    socket.to(socket.roomId).emit('room/leave', socket.userId);
     socket.leave(socket.roomId);
 
     console.log(`socket::::: user ${socket.userId} left room`);
@@ -71,7 +75,7 @@ exports.die = (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('user/die', socket.userId);
+    socket.to(socket.roomId).emit('game/die', socket.userId);
     socket.leave(socket.roomId);
 
     console.log(`socket::::: user ${socket.userId} is dead`);
@@ -95,6 +99,18 @@ exports.startGame = async (socket, mode) => {
     console.log(`socket::::: game started: ${socket.roomId}`);
   } catch (error) {
     console.error(error);
+  }
+};
+
+exports.sendOpponentSpeed = (socket, speed) => {
+  try {
+    checkIfJoinRoom(socket);
+
+    socket.to(socket.roomId).emit('game/opponentSpeed', speed);
+
+    console.log(`socket::::: opponentSpeed: ${speed}`);
+  } catch (error) {
+    console.log(error);
   }
 };
 

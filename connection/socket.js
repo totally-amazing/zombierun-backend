@@ -32,6 +32,9 @@ class Socket {
       socket.on('game/start', (mode) => {
         listener.startGame(socket, mode);
       });
+      socket.on('game/userSpeed', (speed) => {
+        listener.sendOpponentSpeed(socket, speed);
+      });
     });
   }
 }
