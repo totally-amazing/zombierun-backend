@@ -26,11 +26,18 @@ class Socket {
       socket.on('user/leave', () => {
         listener.leaveRoom(socket);
       });
-      socket.on('user/die', () => {
+      socket.on('game/die', () => {
         listener.die(socket);
       });
       socket.on('game/start', (mode) => {
         listener.startGame(socket, mode);
+      });
+      socket.on('game/userSpeed', (speed) => {
+        this.io.emit('game/opponentSpeed', Number(speed));
+        // listener.sendOpponentSpeed(socket, speed);
+      });
+      socket.on('game/test', () => {
+        this.io.emit('game/test');
       });
     });
   }

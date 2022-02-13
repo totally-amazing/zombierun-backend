@@ -71,7 +71,7 @@ exports.die = (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('user/die', socket.userId);
+    socket.to(socket.roomId).emit('game/die', socket.userId);
     socket.leave(socket.roomId);
 
     console.log(`socket::::: user ${socket.userId} is dead`);
@@ -95,6 +95,18 @@ exports.startGame = async (socket, mode) => {
     console.log(`socket::::: game started: ${socket.roomId}`);
   } catch (error) {
     console.error(error);
+  }
+};
+
+exports.sendOpponentSpeed = (socket, speed) => {
+  try {
+    checkIfJoinRoom(socket);
+
+    socket.to(socket.roomId).emit('game/opponentSpeed', speed);
+
+    console.log(`socket::::: opponentSpeed: ${speed}`);
+  } catch (error) {
+    console.log(error);
   }
 };
 
