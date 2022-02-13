@@ -1,7 +1,7 @@
 const Room = require('../models/Room');
 const Game = require('../models/Game');
 
-exports.joinRoom = async (socket, roomId, userId) => {
+exports.joinRoom = async (socket, roomId, user) => {
   if (socket.roomId) {
     console.error('이미 join된 room이 있습니다');
     return;
@@ -9,16 +9,16 @@ exports.joinRoom = async (socket, roomId, userId) => {
 
   try {
     const room = await Room.findById(roomId);
-    room.participants.push(userId);
+    room.participants.push(user);
     await room.save();
 
     socket.roomId = roomId;
-    socket.userId = userId;
+    socket.userId = user.id;
 
     socket.join(roomId);
-    socket.to(roomId).emit('user/join', userId);
+    socket.to(roomId).emit('user/join', user);
 
-    console.log(`socket::::: user ${userId} joined room`);
+    console.log(`socket::::: user ${user.id} joined room`);
   } catch (error) {
     console.error(error);
   }
