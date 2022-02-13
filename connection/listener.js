@@ -18,6 +18,7 @@ exports.joinRoom = async (socket, roomId, user) => {
     socket.join(roomId);
     socket.to(roomId).emit('room/join', user);
 
+
     console.log(`socket::::: user ${user.id} joined room`);
   } catch (error) {
     console.error(error);

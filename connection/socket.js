@@ -14,16 +14,16 @@ class Socket {
     this.io.on('connect', (socket) => {
       console.log(`socket::::: ${socket.id} connected`);
 
-      socket.on('user/join', (roomId, userId) => {
-        listener.joinRoom(socket, roomId, userId);
+      socket.on('room/join', (roomId, user) => {
+        listener.joinRoom(socket, roomId, user);
       });
-      socket.on('user/ready', () => {
+      socket.on('room/ready', () => {
         listener.ready(socket);
       });
-      socket.on('user/notReady', () => {
+      socket.on('room/notReady', () => {
         listener.notReady(socket);
       });
-      socket.on('user/leave', () => {
+      socket.on('room/leave', () => {
         listener.leaveRoom(socket);
       });
       socket.on('game/die', () => {
