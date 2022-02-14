@@ -14,6 +14,11 @@ const participantsSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
   },
+  isReady: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 const roomSchema = mongoose.Schema({
