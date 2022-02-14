@@ -68,15 +68,19 @@ exports.leaveRoom = async (socket) => {
 
     const currentRoom = await Room.findById(socket.room.id);
 
+    socket.to(socket.room.id).emit('room/leave', socket.user.id);
+    socket.leave(socket.room.id);
+    socket.room = null;
+
+    // 플레이어가 1명일 땐 `DELET /room/:id` 요청을 보내 방이 없으므로 return
+    if (!currentRoom) {
+      return;
+    }
+
     currentRoom.participants = currentRoom.participants.filter(
       (player) => String(player.id) !== socket.user.id
     );
     await currentRoom.save();
-
-    socket.to(socket.room.id).emit('room/leave', socket.user.id);
-    socket.leave(socket.room.id);
-
-    socket.room = null;
 
     console.log(`socket::::: user ${socket.user.id} left room`);
   } catch (error) {
