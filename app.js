@@ -5,7 +5,6 @@ const cors = require('cors');
 require('express-async-errors');
 
 const authRouter = require('./routes/auth');
-const userRouter = require('./routes/user');
 const gameRouter = require('./routes/game');
 const roomRouter = require('./routes/room');
 const config = require('./config');
@@ -27,7 +26,6 @@ app.use(
 );
 
 app.use('/auth', authRouter);
-app.use('/user', userRouter);
 app.use('/game', gameRouter);
 app.use('/room', roomRouter);
 
