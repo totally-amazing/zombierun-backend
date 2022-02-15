@@ -14,8 +14,8 @@ class Socket {
     this.io.on('connect', (socket) => {
       console.log(`socket::::: ${socket.id} connected`);
 
-      socket.on('room/join', (roomId, user) => {
-        listener.joinRoom(socket, roomId, user);
+      socket.on('room/join', (room, user) => {
+        listener.joinRoom(socket, room, user);
       });
       socket.on('room/ready', () => {
         listener.ready(socket);

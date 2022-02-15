@@ -15,7 +15,6 @@ exports.signIn = async (req, res, next) => {
       nickname,
       imageUrl,
       gameHistory: [],
-      refreshToken: null,
     });
   }
 

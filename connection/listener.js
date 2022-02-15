@@ -1,23 +1,22 @@
 const Room = require('../models/Room');
 const Game = require('../models/Game');
 
-exports.joinRoom = async (socket, roomId, user) => {
-  if (socket.roomId) {
+exports.joinRoom = async (socket, room, user) => {
+  if (socket.room) {
     console.error('이미 join된 room이 있습니다');
     return;
   }
 
   try {
-    const room = await Room.findById(roomId);
-    room.participants.push(user);
-    await room.save();
+    const currentRoom = await Room.findById(room.id);
+    currentRoom.participants.push(user);
+    await currentRoom.save();
 
-    socket.roomId = roomId;
-    socket.userId = user.id;
+    socket.room = room;
+    socket.user = user;
 
-    socket.join(roomId);
-    socket.to(roomId).emit('room/join', user);
-
+    socket.join(room.id);
+    socket.to(room.id).emit('room/join', user);
 
     console.log(`socket::::: user ${user.id} joined room`);
   } catch (error) {
@@ -25,25 +24,39 @@ exports.joinRoom = async (socket, roomId, user) => {
   }
 };
 
-exports.ready = (socket) => {
+exports.ready = async (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('room/ready', socket.userId);
+    socket.to(socket.room.id).emit('room/ready', socket.user.id);
 
-    console.log(`socket::::: user ${socket.userId} is ready`);
+    const currentRoom = await Room.findById(socket.room.id);
+    const user = currentRoom.participants.find(
+      (player) => String(player.id) === socket.user.id
+    );
+    user.isReady = true;
+    await currentRoom.save();
+
+    console.log(`socket::::: user ${socket.user.id} is ready`);
   } catch (error) {
     console.error(error);
   }
 };
 
-exports.notReady = (socket) => {
+exports.notReady = async (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('room/notReady', socket.userId);
+    socket.to(socket.room.id).emit('room/notReady', socket.user.id);
 
-    console.log(`socket::::: user ${socket.userId} is not ready`);
+    const currentRoom = await Room.findById(socket.room.id);
+    const user = currentRoom.participants.find(
+      (player) => String(player.id) === socket.user.id
+    );
+    user.isReady = false;
+    await currentRoom.save();
+
+    console.log(`socket::::: user ${socket.user.id} is not ready`);
   } catch (error) {
     console.error(error);
   }
@@ -53,19 +66,23 @@ exports.leaveRoom = async (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    const room = await Room.findById(socket.roomId);
+    const currentRoom = await Room.findById(socket.room.id);
 
-    room.participants = room.participants.filter(
-      (participant) => String(participant.id) !== socket.userId
+    socket.to(socket.room.id).emit('room/leave', socket.user.id);
+    socket.leave(socket.room.id);
+    socket.room = null;
+
+    // 플레이어가 1명일 땐 `DELET /room/:id` 요청을 보내 방이 없으므로 return
+    if (!currentRoom) {
+      return;
+    }
+
+    currentRoom.participants = currentRoom.participants.filter(
+      (player) => String(player.id) !== socket.user.id
     );
-    await room.save();
+    await currentRoom.save();
 
-    socket.roomId = null;
-
-    socket.to(socket.roomId).emit('room/leave', socket.userId);
-    socket.leave(socket.roomId);
-
-    console.log(`socket::::: user ${socket.userId} left room`);
+    console.log(`socket::::: user ${socket.user.id} left room`);
   } catch (error) {
     console.error(error);
   }
@@ -75,10 +92,10 @@ exports.die = (socket) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('game/die', socket.userId);
-    socket.leave(socket.roomId);
+    socket.to(socket.room.id).emit('game/die', socket.user.id);
+    socket.leave(socket.room.id);
 
-    console.log(`socket::::: user ${socket.userId} is dead`);
+    console.log(`socket::::: user ${socket.user.id} is dead`);
   } catch (error) {
     console.error(error);
   }
@@ -94,9 +111,9 @@ exports.startGame = async (socket, mode) => {
     });
     await Room.findByIdAndDelete(socket.roomId);
 
-    socket.to(socket.roomId).emit('game/start', id);
+    socket.to(socket.room.id).emit('game/start', id);
 
-    console.log(`socket::::: game started: ${socket.roomId}`);
+    console.log(`socket::::: game started: ${socket.room.id}`);
   } catch (error) {
     console.error(error);
   }
@@ -115,7 +132,7 @@ exports.sendOpponentSpeed = (socket, speed) => {
 };
 
 function checkIfJoinRoom(socket) {
-  if (!socket.roomId) {
+  if (!socket.room) {
     throw new Error('socket이 room에 join되지 않았습니다');
   }
 }
