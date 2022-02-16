@@ -1,5 +1,4 @@
 const Room = require('../models/Room');
-const { Game } = require('../models/Game');
 
 exports.joinRoom = async (socket, room, user) => {
   if (socket.room) {
