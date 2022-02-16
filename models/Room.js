@@ -1,9 +1,30 @@
 const mongoose = require('mongoose');
 
+const { useVirtualId } = require('../database/database');
+
+const participantsSchema = new mongoose.Schema({
+  id: {
+    type: mongoose.Types.ObjectId,
+    require: true,
+  },
+  nickname: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+  },
+  isReady: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+});
+
 const roomSchema = mongoose.Schema({
   mode: {
     type: String,
-    enum: ['OneOnOne', 'Survival'],
+    enum: ['oneOnOne', 'survival'],
     required: true,
   },
   title: {
@@ -12,13 +33,9 @@ const roomSchema = mongoose.Schema({
   },
   speed: Number,
   time: Number,
-  participants: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
-  ],
+  participants: [participantsSchema],
 });
+
+useVirtualId(roomSchema);
 
 module.exports = mongoose.model('Room', roomSchema);

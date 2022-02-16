@@ -3,6 +3,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
     node: true,
+    'jest/globals': true,
   },
   extends: [
     'airbnb',
@@ -15,6 +16,8 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'consistent-return': 'off',
+    'no-param-reassign': 'off',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'import/no-unresolved': 'off',
@@ -26,6 +29,19 @@ module.exports = {
         printWidth: 80,
       },
     ],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allowAfterThis: true,
+        allow: ['_getData', '_id'],
+      },
+    ],
+    'class-methods-use-this': [
+      'error',
+      {
+        enforceForClassFields: false,
+      },
+    ],
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jest'],
 };
