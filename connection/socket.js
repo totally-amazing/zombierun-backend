@@ -26,9 +26,6 @@ class Socket {
       socket.on('room/leave', () => {
         listener.leaveRoom(socket);
       });
-      socket.on('game/die', () => {
-        listener.die(socket);
-      });
       socket.on('game/start', (mode) => {
         listener.startGame(socket, mode);
       });

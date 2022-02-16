@@ -88,19 +88,6 @@ exports.leaveRoom = async (socket) => {
   }
 };
 
-exports.die = (socket) => {
-  try {
-    checkIfJoinRoom(socket);
-
-    socket.to(socket.room.id).emit('game/die', socket.user.id);
-    socket.leave(socket.room.id);
-
-    console.log(`socket::::: user ${socket.user.id} is dead`);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 exports.startGame = async (socket, gameId) => {
   try {
     checkIfJoinRoom(socket);
