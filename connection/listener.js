@@ -101,17 +101,13 @@ exports.die = (socket) => {
   }
 };
 
-exports.startGame = async (socket, mode) => {
+exports.startGame = async (socket, gameId) => {
   try {
     checkIfJoinRoom(socket);
 
-    const { id } = await Game.create({
-      mode,
-      players: [],
-    });
-    await Room.findByIdAndDelete(socket.roomId);
+    await Room.findByIdAndDelete(socket.room.id);
 
-    socket.to(socket.room.id).emit('game/start', id);
+    socket.to(socket.room.id).emit('game/start', gameId);
 
     console.log(`socket::::: game started: ${socket.room.id}`);
   } catch (error) {
