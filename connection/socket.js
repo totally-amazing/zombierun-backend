@@ -23,6 +23,12 @@ class Socket {
       socket.on('room/notReady', () => {
         listener.notReady(socket);
       });
+      socket.on('room/zombie', () => {
+        listener.chooseZombie(socket);
+      });
+      socket.on('room/human', () => {
+        listener.chooseHuman(socket);
+      });
       socket.on('room/leave', () => {
         listener.leaveRoom(socket);
       });
