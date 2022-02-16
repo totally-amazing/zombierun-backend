@@ -23,9 +23,6 @@ app.use(
   })
 );
 
-app.use('/', (req, res, next) => {
-  res.end();
-});
 app.use('/auth', authRouter);
 app.use('/game', gameRouter);
 app.use('/room', roomRouter);
