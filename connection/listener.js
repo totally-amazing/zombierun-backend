@@ -62,6 +62,28 @@ exports.notReady = async (socket) => {
   }
 };
 
+exports.chooseZombie = (socket) => {
+  try {
+    checkIfJoinRoom(socket);
+    socket.to(socket.room.id).emit('room/zombie', socket.user.id);
+
+    console.log(`socket::::: user ${socket.user.id} is a Zombie`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.chooseHuman = (socket) => {
+  try {
+    checkIfJoinRoom(socket);
+    socket.to(socket.room.id).emit('room/human', socket.user.id);
+
+    console.log(`socket::::: user ${socket.user.id} is a Human`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 exports.leaveRoom = async (socket) => {
   try {
     checkIfJoinRoom(socket);
