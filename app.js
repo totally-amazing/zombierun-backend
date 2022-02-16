@@ -1,6 +1,5 @@
 const express = require('express');
 const morgan = require('morgan');
-const helmet = require('helmet');
 const cors = require('cors');
 require('express-async-errors');
 
@@ -17,11 +16,6 @@ connectDB();
 const app = express();
 
 app.use(morgan('tiny'));
-app.use(
-  helmet({
-    crossOriginOpenerPolicy: false,
-  })
-);
 app.use(express.json());
 app.use(
   cors({
