@@ -35,6 +35,10 @@ class Socket {
       socket.on('game/userSpeed', (speed) => {
         listener.sendOpponentSpeed(socket, speed);
       });
+
+      socket.on('game/finish', () => {
+        listener.finishGame(socket);
+      });
     });
   }
 }

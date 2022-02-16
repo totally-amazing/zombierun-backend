@@ -1,5 +1,5 @@
 const Room = require('../models/Room');
-const Game = require('../models/Game');
+const { Game } = require('../models/Game');
 
 exports.joinRoom = async (socket, room, user) => {
   if (socket.room) {
@@ -119,11 +119,22 @@ exports.sendOpponentSpeed = (socket, speed) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('game/opponentSpeed', speed);
+    socket.to(socket.room.id).emit('game/opponentSpeed', speed);
 
     console.log(`socket::::: opponentSpeed: ${speed}`);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+  }
+};
+
+exports.finishGame = (socket) => {
+  try {
+    socket.leave(socket.room.id);
+    socket.room = null;
+
+    console.log(`socket::::: game finish: ${socket.user.id}`);
+  } catch (error) {
+    console.error(error);
   }
 };
 
