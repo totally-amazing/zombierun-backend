@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "jest --watchAll --verbose",
-    "start": "nodemon app",
+    "start": "node app",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
