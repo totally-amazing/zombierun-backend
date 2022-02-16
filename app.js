@@ -17,7 +17,11 @@ connectDB();
 const app = express();
 
 app.use(morgan('tiny'));
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginOpenerPolicy: false,
+  })
+);
 app.use(express.json());
 app.use(
   cors({
