@@ -100,7 +100,7 @@ exports.createGameRecord = async (req, res) => {
 
   await User.findByIdAndUpdate(id, { $push: { gameHistory: result._id } });
 
-  res.status(201).end();
+  res.status(201).send(result._id);
 };
 
 exports.updateGameRecord = async (req, res) => {

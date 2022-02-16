@@ -1,5 +1,4 @@
 const Room = require('../models/Room');
-const Game = require('../models/Game');
 
 exports.joinRoom = async (socket, room, user) => {
   if (socket.room) {
@@ -88,30 +87,13 @@ exports.leaveRoom = async (socket) => {
   }
 };
 
-exports.die = (socket) => {
+exports.startGame = async (socket, gameId) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.room.id).emit('game/die', socket.user.id);
-    socket.leave(socket.room.id);
+    await Room.findByIdAndDelete(socket.room.id);
 
-    console.log(`socket::::: user ${socket.user.id} is dead`);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-exports.startGame = async (socket, mode) => {
-  try {
-    checkIfJoinRoom(socket);
-
-    const { id } = await Game.create({
-      mode,
-      players: [],
-    });
-    await Room.findByIdAndDelete(socket.roomId);
-
-    socket.to(socket.room.id).emit('game/start', id);
+    socket.to(socket.room.id).emit('game/start', gameId);
 
     console.log(`socket::::: game started: ${socket.room.id}`);
   } catch (error) {
@@ -123,11 +105,22 @@ exports.sendOpponentSpeed = (socket, speed) => {
   try {
     checkIfJoinRoom(socket);
 
-    socket.to(socket.roomId).emit('game/opponentSpeed', speed);
+    socket.to(socket.room.id).emit('game/opponentSpeed', speed);
 
     console.log(`socket::::: opponentSpeed: ${speed}`);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+  }
+};
+
+exports.finishGame = (socket) => {
+  try {
+    socket.leave(socket.room.id);
+    socket.room = null;
+
+    console.log(`socket::::: game finish: ${socket.user.id}`);
+  } catch (error) {
+    console.error(error);
   }
 };
 
