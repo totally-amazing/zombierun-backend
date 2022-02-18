@@ -6,7 +6,6 @@ const TokenService = require('../service/token');
 
 const createAuthMiddleware = (tokenService) => async (req, res, next) => {
   const authHeader = req.get('Authorization');
-  console.log(authHeader);
 
   if (!(authHeader && authHeader.startsWith('Bearer '))) {
     return res.status(401).send(ERROR.AUTHENTICATION_FAILED);
