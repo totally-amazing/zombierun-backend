@@ -18,11 +18,8 @@ exports.signIn = async (req, res, next) => {
     });
   }
 
-  const tokenService = new TokenService({
-    id: user.id,
-    nickname: user.nickname,
-    imageUrl: user.imageUrl,
-  });
+  const tokenService = new TokenService();
+  tokenService.setUser(user);
 
   const accessToken = tokenService.createAccessToken();
   const refreshToken = tokenService.createRefreshToken();
