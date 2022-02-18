@@ -8,7 +8,7 @@ function required(array) {
   }
 }
 
-function validateId(id) {
+function validateMongooseId(id) {
   required([id]);
 
   if (!mongoose.isValidObjectId(id)) {
@@ -58,7 +58,7 @@ function checkTypeOfRole(role) {
 
 module.exports = {
   required,
-  validateId,
+  validateMongooseId,
   findExistentUserId,
   checkTypeOfNumber,
   checkTypeOfString,
