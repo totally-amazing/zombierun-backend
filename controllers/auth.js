@@ -61,11 +61,9 @@ exports.me = async (req, res) => {
 
     return res.send({
       token: req.token,
-      user: {
-        id: user.id,
-        nickname: user.nickname,
-        imageUrl: user.imageUrl,
-      },
+      id: user.id,
+      nickname: user.nickname,
+      imageUrl: user.imageUrl,
     });
   }
 
