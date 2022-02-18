@@ -6,12 +6,23 @@ const {
   validateCreateGameRecord,
 } = require('../middlewares/validators');
 const gameController = require('../controllers/game');
+const { checkAuth } = require('../middlewares/checkAuth');
 
 const router = express.Router();
 
-router.get('/total', validateQuery, gameController.getTotalRecord);
-router.get('/recent', validateQuery, gameController.getRecentRecord);
-router.post('/', validateCreateGameRecord, gameController.createGameRecord);
-router.put('/:id', validateUpdateGameRecord, gameController.updateGameRecord);
+router.get('/total', checkAuth, validateQuery, gameController.getTotalRecord);
+router.get('/recent', checkAuth, validateQuery, gameController.getRecentRecord);
+router.post(
+  '/',
+  checkAuth,
+  validateCreateGameRecord,
+  gameController.createGameRecord
+);
+router.put(
+  '/:id',
+  checkAuth,
+  validateUpdateGameRecord,
+  gameController.updateGameRecord
+);
 
 module.exports = router;
