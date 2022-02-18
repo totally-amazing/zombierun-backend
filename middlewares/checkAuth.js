@@ -42,6 +42,7 @@ const createAuthMiddleware = (tokenService) => async (req, res, next) => {
     next();
   }
 };
+
 const tokenService = new TokenService();
 
 exports.createAuthMiddleware = createAuthMiddleware;

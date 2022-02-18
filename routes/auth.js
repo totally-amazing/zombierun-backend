@@ -5,7 +5,7 @@ const { checkAuth } = require('../middlewares/checkAuth');
 
 const router = express.Router();
 
-router.post('/signin', authController.signIn);
 router.get('/me', checkAuth, authController.me);
+router.post('/signin', authController.signIn);
 
 module.exports = router;
