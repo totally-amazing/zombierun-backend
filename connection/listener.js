@@ -137,6 +137,8 @@ exports.sendOpponentSpeed = (socket, speed) => {
 
 exports.finishGame = (socket) => {
   try {
+    socket.to(socket.room.id).emit('game/finish');
+
     socket.leave(socket.room.id);
     socket.room = null;
 

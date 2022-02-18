@@ -1,11 +1,15 @@
 class TokenService {
-  constructor({ id, nickname, imageUrl }) {
-    this.id = id;
-    this.nickname = nickname;
-    this.imageUrl = imageUrl;
+  constructor() {
+    this._id = null;
+    this._nickname = null;
+    this._imageUrl = null;
   }
 
-  createToken = () => {};
+  setUser = (user) => {
+    this._id = user.id;
+    this._nickname = user.nickname;
+    this._imageUrl = user.imageUrl;
+  };
 
   createAccessToken = () => {
     return 'accessToken';
@@ -14,6 +18,17 @@ class TokenService {
   createRefreshToken = () => {
     return 'refreshToken';
   };
+
+  getUserByExpiredToken = async () => {
+    return {
+      id: 'id',
+      nickname: 'nicknam',
+      imageUrl: 'imageUrl',
+      refreshToken: 'refreshToken',
+    };
+  };
+
+  isTokenValid = () => true;
 }
 
 module.exports = TokenService;

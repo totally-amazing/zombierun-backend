@@ -2,7 +2,7 @@ const { Game } = require('../models/Game');
 const Room = require('../models/Room');
 const {
   required,
-  validateId,
+  validateMongooseId,
   findExistentUserId,
   checkTypeOfNumber,
   checkTypeOfString,
@@ -14,7 +14,7 @@ const {
 exports.validateQuery = (req, res, next) => {
   const { userId } = req.query;
 
-  validateId(userId);
+  validateMongooseId(userId);
   findExistentUserId(userId);
 
   return next();
@@ -23,7 +23,7 @@ exports.validateQuery = (req, res, next) => {
 exports.validateRoomId = async (req, res, next) => {
   const { id } = req.params;
 
-  validateId(id);
+  validateMongooseId(id);
 
   const roomId = await Room.findById(id);
 
@@ -71,7 +71,7 @@ exports.validateCreateGameRecord = async (req, res, next) => {
     mode,
   } = req.body;
 
-  validateId(id);
+  validateMongooseId(id);
   findExistentUserId(id);
 
   required([distance, time, speed, role, mode]);
@@ -90,7 +90,7 @@ exports.validateUpdateGameRecord = async (req, res, next) => {
   const { id } = req.params;
   const { id: userId, isWinner, distance, time, speed, role } = req.body;
 
-  validateId(id);
+  validateMongooseId(id);
 
   const game = await Game.findById(id);
 
@@ -98,7 +98,7 @@ exports.validateUpdateGameRecord = async (req, res, next) => {
     throw new Error(`해당 게임을 찾을 수 없습니다 id: ${id}`);
   }
 
-  validateId(userId);
+  validateMongooseId(userId);
   findExistentUserId(userId);
 
   required([distance, time, speed, role]);

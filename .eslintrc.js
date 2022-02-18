@@ -33,7 +33,7 @@ module.exports = {
       'error',
       {
         allowAfterThis: true,
-        allow: ['_getData', '_id'],
+        allow: ['_getData', '_id', '_getStatusCode'],
       },
     ],
     'class-methods-use-this': [

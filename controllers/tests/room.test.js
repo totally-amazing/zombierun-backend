@@ -12,9 +12,7 @@ describe('Room Cotroller', () => {
       const req = createRequest();
       const res = createResponse();
 
-      Room.find.mockImplementation(() => ({
-        lean: jest.fn().mockResolvedValue(dummyRooms),
-      }));
+      Room.find = jest.fn(async () => dummyRooms);
 
       await getRoomList(req, res);
 
