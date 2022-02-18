@@ -50,21 +50,23 @@ exports.me = async (req, res) => {
   try {
     jwt.verify(user.refreshToken, config.jwt.sercetKey);
   } catch (error) {
-    if (error.name === ERROR.TOKEN_EXPIRED) {
-      const tokenService = new TokenService();
-      tokenService.setUser(user);
-      const refreshToken = tokenService.createRefreshToken();
-      await User.findByIdAndUpdate(user.id, { refreshToken });
-
-      return res.send({
-        token: req.token,
-        user: {
-          id: user.id,
-          nickname: user.nickname,
-          imageUrl: user.imageUrl,
-        },
-      });
+    if (!error.name === ERROR.TOKEN_EXPIRED) {
+      return res.status(401).send(ERROR.AUTHENTICATION_FAILED);
     }
+
+    const tokenService = new TokenService();
+    tokenService.setUser(user);
+    const refreshToken = tokenService.createRefreshToken();
+    await User.findByIdAndUpdate(user.id, { refreshToken });
+
+    return res.send({
+      token: req.token,
+      user: {
+        id: user.id,
+        nickname: user.nickname,
+        imageUrl: user.imageUrl,
+      },
+    });
   }
 
   res.send({
